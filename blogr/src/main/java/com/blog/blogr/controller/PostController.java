@@ -1,8 +1,10 @@
 package com.blog.blogr.controller;
 
 
+import com.blog.blogr.data.model.Comment;
 import com.blog.blogr.data.model.Post;
 import com.blog.blogr.dto.PostUpdateDto;
+import com.blog.blogr.exceptions.PostAlreadyExistsException;
 import com.blog.blogr.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,11 @@ public class PostController {
 
     @PostMapping("")
     public ResponseEntity<?> savePost(@RequestBody Post post) {
-        return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
+        } catch (PostAlreadyExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
@@ -40,6 +46,10 @@ public class PostController {
         }
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> findAllPost(){
+        return new ResponseEntity<>(postService.findAll(), HttpStatus.FOUND);
+    }
     @GetMapping("/findCourseByAuthor/{author}")
     public ResponseEntity<?> findPostByAuthor(@PathVariable String author) {
         try {
@@ -67,5 +77,11 @@ public class PostController {
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PatchMapping(value = "/comment/{id}")
+    public ResponseEntity<?> createComment(@PathVariable Long id, @RequestBody Comment comment) {
+        postService.createComment(id, comment);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

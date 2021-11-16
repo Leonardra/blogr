@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,14 +20,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long postId;
     @Column(nullable = false)
     private String title;
+    @NotBlank @NotEmpty
     private String postBody;
     private String author;
-    @OneToMany
-    @ToString.Exclude
+    @OneToMany(cascade= CascadeType.ALL)
     private List<Comment> comments;
     @CreationTimestamp
     private LocalDate dateCreated;
