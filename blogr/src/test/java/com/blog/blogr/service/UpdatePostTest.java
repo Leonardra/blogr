@@ -4,6 +4,7 @@ package com.blog.blogr.service;
 import com.blog.blogr.data.model.Post;
 import com.blog.blogr.data.repository.PostRepository;
 import com.blog.blogr.dto.PostUpdateDto;
+import com.blog.blogr.dto.SavedPostDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class UpdatePostTest {
         postUpdate.setPostBody("This is the end" );
         postUpdate.setAuthor("Oluwatolu Jolayemi");
 
-        post = postService.updatePost(111L, postUpdate);
-        assertThat(post.getAuthor()).isEqualTo("Oluwatolu Jolayemi");
+        SavedPostDto savePost = postService.updatePost(111L, postUpdate);
+        assertThat(savePost.getAuthor()).isEqualTo("Oluwatolu Jolayemi");
     }
 }

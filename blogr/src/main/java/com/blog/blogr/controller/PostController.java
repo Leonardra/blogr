@@ -3,6 +3,7 @@ package com.blog.blogr.controller;
 
 import com.blog.blogr.data.model.Comment;
 import com.blog.blogr.data.model.Post;
+import com.blog.blogr.dto.AddPostDto;
 import com.blog.blogr.dto.PostUpdateDto;
 import com.blog.blogr.exceptions.PostAlreadyExistsException;
 import com.blog.blogr.service.PostService;
@@ -20,7 +21,7 @@ public class PostController {
 
 
     @PostMapping("")
-    public ResponseEntity<?> savePost(@RequestBody Post post) {
+    public ResponseEntity<?> savePost(@RequestBody AddPostDto post) {
         try {
             return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
         } catch (PostAlreadyExistsException e) {
@@ -80,8 +81,9 @@ public class PostController {
     }
 
     @PatchMapping(value = "/comment/{id}")
-    public ResponseEntity<?> createComment(@PathVariable Long id, @RequestBody Comment comment) {
+    public ResponseEntity<?> addComment(@PathVariable Long id, @RequestBody Comment comment) {
         postService.createComment(id, comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.blog.blogr.service;
 
 import com.blog.blogr.data.model.Post;
-import com.blog.blogr.dto.PostCreationDto;
 import com.blog.blogr.dto.PostUpdateDto;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
