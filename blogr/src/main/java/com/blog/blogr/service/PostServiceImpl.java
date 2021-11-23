@@ -7,8 +7,8 @@ import com.blog.blogr.dto.AddPostDto;
 import com.blog.blogr.dto.PostUpdateDto;
 import com.blog.blogr.dto.SavedPostDto;
 import com.blog.blogr.exceptions.PostAlreadyExistsException;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class PostServiceImpl implements PostService {
 
     @Autowired
@@ -27,13 +28,13 @@ public class PostServiceImpl implements PostService {
     PostMapper postMapper;
 
     @Override
-    public SavedPostDto savePost(AddPostDto post) throws PostAlreadyExistsException {
+    public SavedPostDto savePost(AddPostDto postDto) throws PostAlreadyExistsException {
         ModelMapper modelMapper = new ModelMapper();
-        Optional<Post> foundPost = postRepository.findByTitle(post.getTitle());
+        Optional<Post> foundPost = postRepository.findByTitle(postDto.getTitle());
         if(foundPost.isPresent()){
             throw new PostAlreadyExistsException("This title is not unique");
         }
-        Post mappedPost = modelMapper.map(post, Post.class);
+        Post mappedPost = modelMapper.map(postDto, Post.class);
         Post savedPost = postRepository.save(mappedPost);
         return modelMapper.map(savedPost, SavedPostDto.class);
     }

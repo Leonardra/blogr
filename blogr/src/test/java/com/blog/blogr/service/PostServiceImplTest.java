@@ -54,6 +54,7 @@ class PostServiceImplTest {
         when(postRepository.save(any())).thenReturn(post);
         try {
             SavedPostDto savedPost = postService.savePost(newPost);
+            System.out.println(savedPost);
         } catch (PostAlreadyExistsException e) {
             e.printStackTrace();
         }
