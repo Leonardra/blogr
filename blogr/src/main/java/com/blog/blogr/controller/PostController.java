@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/post")
+@RequestMapping(value = "/posts")
 public class PostController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/findPostByTitle/{title}")
+    @GetMapping("/titles/{title}")
     public ResponseEntity<?> findPostByTitle(@PathVariable String title) {
         try {
             return new ResponseEntity<>(postService.findPostByTitle(title), HttpStatus.FOUND);
@@ -51,7 +51,7 @@ public class PostController {
     public ResponseEntity<?> findAllPost(){
         return new ResponseEntity<>(postService.findAll(), HttpStatus.FOUND);
     }
-    @GetMapping("/findCourseByAuthor/{author}")
+    @GetMapping("/authors/{author}")
     public ResponseEntity<?> findPostByAuthor(@PathVariable String author) {
         try {
             return new ResponseEntity<>(postService.findPostByAuthor(author), HttpStatus.FOUND);
